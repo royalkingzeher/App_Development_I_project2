@@ -6,12 +6,18 @@ from werkzeug.utils import secure_filename
 import requests
 from loguru import logger
 from pymongo import MongoClient, DESCENDING
+from dotenv.main import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__, static_url_path='')
 
-YOLO_URL = 'http://localhost:8081'
-MONGO_URL = 'mongodb://localhost:27017'
+# HOST_MACHINE = os.getenv('HOST_MACHINE', "localhost")
 
+YOLO_URL = f'http://yolo5:8081'
+
+
+# MONGO_URL = f'mongodb://mongodb:27017'
 
 @app.route('/', methods=['POST'])
 def upload_file():
@@ -63,7 +69,8 @@ def recent():
         sort=[('time', DESCENDING)])
 
     if doc:
-        return render_template('result.html', filename=f'data/{doc["filename"]}', summary=doc['summary'], detections=doc['detections'])
+        return render_template('result.html', filename=f'data/{doc["filename"]}', summary=doc['summary'],
+                               detections=doc['detections'])
 
     return render_template('result.html', filename='', summary='No recent detection found', detections={})
 
@@ -72,6 +79,6 @@ if __name__ == "__main__":
     app.config['UPLOAD_FOLDER'] = 'static/data'
 
     logger.info(f'Initializing MongoDB connection')
+    MONGO_URL = f'mongodb://mongodb:27017'
     client = MongoClient(MONGO_URL)
-
     app.run(host='0.0.0.0', port=8082, debug=True)
