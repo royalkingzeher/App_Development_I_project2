@@ -16,7 +16,8 @@ The service consists of 4 microservices:
 - Image prediction container based on the Yolo5 pre-train deep learning model.
 - MongoDB container to store clients data.
 
-![](../../.img/object_detection_service.png)
+Architecture
+![image](https://github.com/royalkingzeher/App_Development_I_project2/assets/111191629/49025225-252e-4b7e-bfc9-ee878b5962b3)
 
 ## Preliminaries
 
